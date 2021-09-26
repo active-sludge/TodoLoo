@@ -30,6 +30,7 @@ ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
     'todolomodo.herokuapp.com',
+    '4b8c68aa-2b44-4e84-9eb2-179b5eb8e385.pub.instances.scw.cloud',
 ]
 
 
