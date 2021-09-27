@@ -21,3 +21,6 @@ class Article(models.Model):
     author_list = models.TextField(blank=True)
     keyword_list = models.TextField(blank=True)
     pub_date = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.article_id + ", " + self.article_title + ", " + self.author_list
