@@ -4,14 +4,9 @@
 <p align="center">
     <img src="static/todo/logo.png" alt="Logo" width="80" height="80">
 
-  <p align="center">
-  This project was prepared to demonstrate the critical knowledge gap for a required class.
-  </p>
 
-  <p align="center">
-  Feel free to explore the [Wiki](https://github.com/active-sludge/TodoLoo/wiki) pages.
-  </p>
-  
+This project was prepared to demonstrate the critical knowledge gap for a required class. Feel free to explore the [Wiki](https://github.com/active-sludge/TodoLoo/wiki) pages.
+      
   <p align="row">
     <p align="center">
        <img src= "ss1.png" width="300" >
