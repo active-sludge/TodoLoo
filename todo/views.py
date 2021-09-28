@@ -41,6 +41,25 @@ def refresh_articles(request):
     return redirect('articles')
 
 @login_required
+def bookmark(request, article_pk):
+    article = get_object_or_404(Article, pk=article_pk)
+    print(article)
+    print('bookmarked')
+    if article.todo:
+        article.todo.delete()
+    else:
+        todo = Todo.objects.create(
+            title = article.article_title,
+            memo = article.article_abstract,
+            user = request.user
+        )
+        todo.save()
+        article.todo = todo
+        article.save()
+
+    return redirect('articles')
+
+@login_required
 def log_out_user(request):
     if request.method == 'POST':
         logout(request)

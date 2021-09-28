@@ -1,9 +1,3 @@
-
-
-
-
-
-
 {% extends "todo/base.html" %}
 
 {% block content %}
@@ -30,7 +24,7 @@
                     <textarea name="memo" rows="5" class="form-control" id="memo" >{{ todo.memo }}</textarea>
                 </div>
                 <div class="form-group form-check">
-                    <input type="checkbox" name="important" class="form-check-input" id="important" {% if todo.is_important %}checked{% endif %}>
+                    <input type="checkbox" name="is_important" class="form-check-input" id="important" {% if todo.is_important %}checked{% endif %}>
                     <label class="form-check-label" for="important">Important</label>
                 </div>
                 <button type="submit" class="btn btn-primary">Save</button>
