@@ -15,12 +15,12 @@ class Todo(models.Model):
 
 
 class Article(models.Model):
-    article_id = models.CharField(max_length=20)
-    article_title = models.CharField(max_length=200)
-    article_abstract = models.TextField(blank=True)
-    author_list = models.TextField(blank=True)
-    keyword_list = models.TextField(blank=True)
-    pub_date = models.CharField(max_length=100)
+    article_id = models.AutoField(primary_key=True)
+    article_title = models.TextField(blank=True, null=True)
+    article_abstract = models.TextField(blank=True, null=True)
+    author_list = models.TextField(blank=True, null=True)
+    keyword_list = models.TextField(blank=True, null=True)
+    pub_date = models.TextField(blank=True, null=True)
 
     def __str__(self):
-        return self.article_id + ", " + self.article_title + ", " + self.author_list
+        return self.article_id.__str__() + ", " + self.article_title + ", " + self.author_list
