@@ -25,14 +25,20 @@ def get_articles_with_details():
         #     pub_date=pub_date
         # )
 
-        article = Article.objects.create(
-            article_id=article_id,
-            article_title=article_title,
-            article_abstract=article_abstract,
-            author_list=author_list,
-            keyword_list=keyword_list,
-            pub_date=pub_date
-        )
+        try:
+            article = Article.objects.get(article_id=article_id)
+            article.article_title = article_title
+            article.article_abstract = article_abstract
+        except Article.DoesNotExist:
+            article = Article.objects.create(
+                article_id=article_id,
+                article_title=article_title,
+                article_abstract=article_abstract,
+                author_list=author_list,
+                keyword_list=keyword_list,
+                pub_date=pub_date
+            )
+
 
         # print(articles)
 
@@ -67,7 +73,7 @@ def get_article_list_xml():
 
 
 def get_article_ids():
-    url = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&term=aids+AND&retmode=json&retmax=50"
+    url = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&term=aids+AND&retmode=json&retmax=5"
 
     response = requests.request("GET", url)
     articles = response.json()
