@@ -9,9 +9,13 @@ This project was prepared to demonstrate the critical knowledge gap for a requir
       
   <p align="row">
     <p align="center">
-       <img src= "ss1.png" width="300" >
-       <img src= "ss2.png" width="300" >
+        <img src= "ss1.png" height="100" >
+        <img src= "ss2.png" height="100" >
     </p>
+    <p align="center">
+        <img src= "ss3.png" width="300" >
+    </p>
+
   </p>
 </p>
 
