@@ -38,5 +38,7 @@ urlpatterns = [
     # Articles
     path('articles/', views.articles, name='articles'),
     path('refresh/', views.refresh_articles, name='refresharticles'),
+    path('bookmark/<int:article_pk>/', views.bookmark, name='bookmark'),
+
 
 ]

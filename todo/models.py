@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 
 
 class Todo(models.Model):
-    title = models.CharField(max_length=100)
+    title = models.CharField(max_length=300)
     memo = models.TextField(blank=True)
     created = models.DateTimeField(auto_now_add=True)
     date_completed = models.DateTimeField(null=True, blank=True)
@@ -21,6 +21,7 @@ class Article(models.Model):
     author_list = models.TextField(blank=True, null=True)
     keyword_list = models.TextField(blank=True, null=True)
     pub_date = models.TextField(blank=True, null=True)
+    todo = models.ForeignKey(Todo, on_delete=models.SET_NULL, blank=True, null=True)
 
     def __str__(self):
         return self.article_id.__str__() + ", " + self.article_title + ", " + self.author_list
