@@ -34,4 +34,7 @@ urlpatterns = [
     path('todo/<int:todo_pk>', views.todo_detail, name='todo'),
     path('todo/<int:todo_pk>/complete', views.complete_todo, name='completetodo'),
     path('todo/<int:todo_pk>/delete', views.delete_todo, name='deletetodo'),
+
+    # Articles
+    path('articles/', views.articles, name='articles'),
 ]
