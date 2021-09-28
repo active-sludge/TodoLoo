@@ -36,6 +36,10 @@ def articles(request):
     articles = Article.objects.all()
     return render(request, 'articles/article_list.html', {'articles': articles})
 
+def refresh_articles(request):
+    pubmed_service.get_articles_with_details()
+    return redirect('articles')
+
 @login_required
 def log_out_user(request):
     if request.method == 'POST':
