@@ -1,7 +1,7 @@
 import requests
 import xml.etree.ElementTree as ET
 import datetime
-from . import models
+from todo.models import Article
 
 
 def get_articles_with_details():
@@ -16,7 +16,16 @@ def get_articles_with_details():
         keyword_list = get_article_keyword_list(title)
         pub_date = get_article_pub_date(title)
 
-        article = models.Article(
+        # articles = models.Article(
+        #     article_id=article_id,
+        #     article_title=article_title,
+        #     article_abstract=article_abstract,
+        #     author_list=author_list,
+        #     keyword_list=keyword_list,
+        #     pub_date=pub_date
+        # )
+
+        article = Article.objects.create(
             article_id=article_id,
             article_title=article_title,
             article_abstract=article_abstract,
@@ -25,7 +34,7 @@ def get_articles_with_details():
             pub_date=pub_date
         )
 
-        # print(article)
+        # print(articles)
 
         # each_article_row = [
         #     article_id,
@@ -38,9 +47,10 @@ def get_articles_with_details():
         #
         # print(each_article_row)
 
+        article.save()
+
         all_articles.append(article)
 
-    print(all_articles)
     return all_articles
 
 

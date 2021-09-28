@@ -4,9 +4,10 @@ from django.contrib.auth.models import User
 from django.db import IntegrityError
 from django.contrib.auth import login, logout,authenticate
 from .forms import TodoForm
-from .models import Todo
+from .models import Todo, Article
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
+from . import pubmed_service
 
 
 def sign_up_user(request):
@@ -31,6 +32,9 @@ def current_todos(request):
     todos = Todo.objects.filter(user=request.user, date_completed__isnull=True)
     return render(request, 'todo/currenttodos.html', {'todos': todos})
 
+def articles(request):
+    articles = Article.objects.all()
+    return render(request, 'articles/article_list.html', {'articles': articles})
 
 @login_required
 def log_out_user(request):

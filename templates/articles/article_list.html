@@ -1,0 +1,38 @@
+{% extends "todo/base.html" %}
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+
+{% block content %}
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-10">
+            {% if articles %}
+                 <h1>{{ articles.count }} Latest Article{{ articles.count|pluralize }}</h1>
+            {% else %}
+                           <h1>Latest Articles</h1>
+            {% endif %}
+        </div>
+    </div>
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-10">
+        {% if articles %}
+            <div class="list-group">
+                {% for article in articles %}
+                    <a href="" class="list-group-item list-group-item-action">
+                        <b>{{ article.article_title }}</b>{% if article.article_abstract %} - {{ article.article_abstract|truncatechars:100 }}{% endif %}</a>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="text-center">
+                <h2>Looks like there is no new articles.</h2>
+            </div>
+        {% endif %}
+        </div>
+    </div>
+
+{% endblock %}
