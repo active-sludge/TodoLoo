@@ -4,26 +4,16 @@ import datetime
 from todo.models import Article
 
 
-def get_articles_with_details():
-    all_articles = []
+def fetch_and_save_articles():
     abs_tree = get_article_list_xml()
 
-    for title in abs_tree.findall('PubmedArticle/MedlineCitation'):
-        article_id = get_article_id(title)
-        article_title = get_article_title(title)
-        article_abstract = get_article_abstract(title)
-        author_list = get_article_author_list(title)
-        keyword_list = get_article_keyword_list(title)
-        pub_date = get_article_pub_date(title)
-
-        # articles = models.Article(
-        #     article_id=article_id,
-        #     article_title=article_title,
-        #     article_abstract=article_abstract,
-        #     author_list=author_list,
-        #     keyword_list=keyword_list,
-        #     pub_date=pub_date
-        # )
+    for article_entity in abs_tree.findall('PubmedArticle/MedlineCitation'):
+        article_id = get_article_id(article_entity)
+        article_title = get_article_title(article_entity)
+        article_abstract = get_article_abstract(article_entity)
+        author_list = get_article_author_list(article_entity)
+        keyword_list = get_article_keyword_list(article_entity)
+        pub_date = get_article_pub_date(article_entity)
 
         try:
             article = Article.objects.get(article_id=article_id)
@@ -39,25 +29,7 @@ def get_articles_with_details():
                 pub_date=pub_date
             )
 
-
-        # print(articles)
-
-        # each_article_row = [
-        #     article_id,
-        #     article_title,
-        #     article_abstract,
-        #     author_list,
-        #     pub_date,
-        #     keyword_list,
-        # ]
-        #
-        # print(each_article_row)
-
         article.save()
-
-        all_articles.append(article)
-
-    return all_articles
 
 
 def get_article_list_xml():
