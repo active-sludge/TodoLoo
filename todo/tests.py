@@ -5,9 +5,11 @@ from django.urls import reverse
 from todo import pubmed_service
 from rest_framework.test import APIRequestFactory
 
+c = Client()
+
 
 # Create your tests here.
-class ViewTests(TestCase):
+class ViewTestsCase(TestCase):
 
     def setUp(self):
         self.credentials = {
@@ -16,7 +18,6 @@ class ViewTests(TestCase):
         User.objects.create_user(**self.credentials)
 
     def test_home_page_accessed_successfully(self):
-        c = Client()
         response = c.get('/')
         self.assertEqual(response.status_code, 200)
 
@@ -31,7 +32,7 @@ class ViewTests(TestCase):
         self.assertEqual(response.status_code, 200)
 
 
-class LogInTest(TestCase):
+class LogInTestCase(TestCase):
 
     def setUp(self):
         self.credentials = {
@@ -82,9 +83,7 @@ class ArticleTestCase(TestCase):
 
     @classmethod
     def setUp(cls):
-        c = Client()
-        user = User.objects.create_user(username='testuser', password='12345')
-        login = c.login(username='testuser', password='12345')
+        User.objects.create_user(username='testuser', password='12345')
 
         Article.objects.create(
             article_id="324212",
@@ -92,21 +91,12 @@ class ArticleTestCase(TestCase):
             article_abstract="Example article abstract that is a little bit longer",
             author_list="Ben, Sen, O",
             keyword_list="Aids, covid",
-            pub_date="01.02.2004 00:00:00",
+            pub_date="01.02.2004 00:00:00"
         )
 
     def test_when_api_called_articles_are_saved(self):
-        
+        response = c.get('refresh/')
+        articles_saved = Article.objects.exists()
+        self.assertTrue(response.status_code, 200)
+        self.assertTrue(articles_saved)
 
-    # def test_article_has_todo_when_bookmarked(self):
-    #     article = Article.objects.get(id=1)
-    #     user = User.objects.create_user(username='testuser', password='12345')
-    #     login = self.client.login(username='testuser', password='12345')
-    #
-    #     todo = Todo.objects.create(
-    #         title=article.article_title,
-    #         memo=article.article_abstract,
-    #         user=user
-    #     )
-    #
-    #     self.client.request()
