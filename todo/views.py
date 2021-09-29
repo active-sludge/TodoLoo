@@ -37,14 +37,12 @@ def articles(request):
     return render(request, 'articles/article_list.html', {'articles': articles})
 
 def refresh_articles(request):
-    pubmed_service.get_articles_with_details()
+    pubmed_service.fetch_and_save_articles()
     return redirect('articles')
 
 @login_required
 def bookmark(request, article_pk):
     article = get_object_or_404(Article, pk=article_pk)
-    print(article)
-    print('bookmarked')
     if article.todo:
         article.todo.delete()
     else:
