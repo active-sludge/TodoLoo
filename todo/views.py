@@ -26,16 +26,17 @@ def sign_up_user(request):
         else:
             return render(request, 'todo/signup.html', {'form': UserCreationForm(), 'error':'Passwords did not match'})
 
-
 @login_required
 def current_todos(request):
     todos = Todo.objects.filter(user=request.user, date_completed__isnull=True)
     return render(request, 'todo/currenttodos.html', {'todos': todos})
 
+@login_required()
 def articles(request):
     articles = Article.objects.all()
     return render(request, 'articles/article_list.html', {'articles': articles})
 
+@login_required()
 def refresh_articles(request):
     pubmed_service.fetch_and_save_articles()
     return redirect('articles')
@@ -43,6 +44,7 @@ def refresh_articles(request):
 @login_required
 def bookmark(request, article_pk):
     article = get_object_or_404(Article, pk=article_pk)
+    print(article)
     if article.todo:
         article.todo.delete()
     else:
@@ -63,10 +65,8 @@ def log_out_user(request):
         logout(request)
         return redirect('home')
 
-
 def home(request):
     return render(request, 'todo/home.html')
-
 
 def log_in_user(request):
     if request.method == "GET":
@@ -78,7 +78,6 @@ def log_in_user(request):
         else:
             login(request, user)
             return redirect('currenttodos')
-
 
 @login_required
 def create_todo(request):
@@ -94,7 +93,6 @@ def create_todo(request):
         except ValueError:
             return render(request, 'todo/createtodo.html',
                           {'form': TodoForm(), 'error': 'Bad data entry. Try again.'})
-
 
 @login_required
 def todo_detail(request, todo_pk):
@@ -119,14 +117,12 @@ def complete_todo(request, todo_pk):
         todo.save()
         return redirect('currenttodos')
 
-
 @login_required
 def delete_todo(request, todo_pk):
     todo = get_object_or_404(Todo, pk=todo_pk, user=request.user)
     if request.method == 'POST':
         todo.delete()
         return redirect('currenttodos')
-
 
 @login_required
 def completed_todos(request):
