@@ -2,13 +2,11 @@ from django.test import TestCase, Client
 from django.contrib.auth.models import User
 from todo.models import Article, Todo
 from django.urls import reverse
-from todo import pubmed_service
-from rest_framework.test import APIRequestFactory
+
 
 c = Client()
 
 
-# Create your tests here.
 class ViewTestsCase(TestCase):
 
     def setUp(self):
@@ -22,14 +20,14 @@ class ViewTestsCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_user_lands_on_home_after_login(self):
-        login = self.client.login(username='testuser', password='secret')
+        c.login(username='testuser', password='secret')
         response = self.client.get(reverse('currenttodos'))
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 302)
 
     def test_view_url_exists_at_desired_location(self):
-        login = self.client.login(username='testuser', password='secret')
+        c.login(username='testuser', password='secret')
         response = self.client.get(reverse('currenttodos'))
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 302)
 
 
 class LogInTestCase(TestCase):
@@ -71,19 +69,21 @@ class TodoTestCase(TestCase):
         todo = Todo.objects.get(id=1)
         self.assertTrue(todo.user)
 
-    def test_update_todo_meme(self):
+    def test_update_todo_memo(self):
         todo = Todo.objects.get(id=1)
         todo.memo = "New Memo"
         todo.save()
-
         self.assertEqual(todo.memo, 'New Memo')
 
 
 class ArticleTestCase(TestCase):
 
-    @classmethod
-    def setUp(cls):
-        User.objects.create_user(username='testuser', password='12345')
+    def setUp(self):
+        self.credentials = {
+            'username': 'testuser',
+            'password': 'secret'}
+        User.objects.create_user(**self.credentials)
+        c.post('/login/', self.credentials, follow=True)
 
         Article.objects.create(
             article_id="324212",
@@ -100,3 +100,9 @@ class ArticleTestCase(TestCase):
         self.assertTrue(response.status_code, 200)
         self.assertTrue(articles_saved)
 
+    def test_bookmarked_article_becomes_todo(self):
+        response = c.get('/bookmark/324212/')
+        todo = Todo.objects.all()
+
+        self.assertTrue(response.status_code, 200)
+        self.assertTrue(todo)
