@@ -36,9 +36,7 @@ def get_article_list_xml():
     article_ids = get_article_ids()
     article_ids_as_string = ','.join(article_ids)
     url = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&id=" + article_ids_as_string + "&rettype=abstract"
-    # print(url)
     response = requests.request("POST", url)
-    # print(response)
     article_xml_tree = ET.fromstring(response.content)
 
     return article_xml_tree
@@ -48,14 +46,13 @@ def get_article_ids():
     url = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&term=aids+AND&retmode=json&retmax=5"
 
     response = requests.request("GET", url)
-    articles = response.json()
+    articles_ids_as_json = response.json()
 
-    article_list = []
-    for i in range(len(articles['esearchresult']['idlist'])):
-        article_list.append(articles['esearchresult']['idlist'][i])
+    article_id_list = []
+    for i in range(len(articles_ids_as_json['esearchresult']['idlist'])):
+        article_id_list.append(articles_ids_as_json['esearchresult']['idlist'][i])
 
-    # print(article_list)
-    return article_list
+    return article_id_list
 
 
 def get_article_pub_date(title):
@@ -98,7 +95,6 @@ def get_article_author_list(title):
             author_name = author.find('LastName').text + " " + author.find('ForeName').text + ";"
             author_list += author_name
         author_list = author_list.strip(';')
-        # print(author_list)
     except:
         print("Couldn't get the author")
         pass
