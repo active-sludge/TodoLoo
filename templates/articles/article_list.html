@@ -33,7 +33,9 @@
                     <a href="{% url 'bookmark' article.article_id %}" class="list-group-item list-group-item-action">
                         <b>{{ article.article_title }}</b>{% if article.article_abstract %} - {{ article.article_abstract|truncatechars:100 }}{% endif %}
                         {% if article.todo %}
-                            <i class="bi bi-bookmark-check-fill"></i>
+                            {% if user == article.todo.user %}
+                                <i class="bi bi-bookmark-check-fill"></i>
+                            {% endif %}
                         {% else %}
                             <i class="bi bi-bookmark"></i>
                         {% endif %}
